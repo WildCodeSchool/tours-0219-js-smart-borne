@@ -1,8 +1,8 @@
 # SMART-BORNE
 
 ## Projets
-1. [smart-borne-api](smart-borne-api/README.md)
-2. [smart-borne-ui](smart-borne-ui/README.md)
+1. [smart-borne-api](https://github.com/WildCodeSchool/tours-0219-js-smart-borne-api)
+2. [smart-borne-ui](https://github.com/WildCodeSchool/tours-0219-js-smart-borne-ui)
 
 ## Git sub modules  
 ### Cloner le projet
