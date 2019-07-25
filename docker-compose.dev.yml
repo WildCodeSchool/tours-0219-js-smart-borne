@@ -1,0 +1,50 @@
+version: "3.3"
+
+services:
+  proxy:
+    image: traefik
+    command: --api --docker --docker.domain=docker.localhost --logLevel=DEBUG
+    networks:
+      - front-network
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /dev/null:/traefik.toml
+
+  api:
+    build:
+      context: ./tours-0219-js-smart-borne-api
+    restart: always 
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - SECRET=${SECRET}
+      - EXPIRESKEY=3600
+      - DBURI=mongodb+srv://smartborne:smartborne@cluster0-mkfjj.mongodb.net/smartborne?retryWrites=true&w=majority
+    networks:
+      - front-network
+    labels:
+      - "traefik.frontend.rule=Host:localhost;PathPrefix:/api"
+      - "traefik.port=3000"
+      - "traefik.docker.network=front-network"
+
+  ui:
+    build:
+      context: ./tours-0219-js-smart-borne-ui
+    restart: always    
+    environment:
+      - NODE_ENV=production
+      - PORT=80
+    networks:
+      - front-network
+    depends_on:
+      - api
+    labels:
+      - "traefik.frontend.rule=Host:localhost"
+      - "traefik.port=80"
+      - "traefik.docker.network=front-network"
+
+networks:
+  front-network:
