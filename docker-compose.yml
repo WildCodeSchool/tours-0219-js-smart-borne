@@ -1,0 +1,43 @@
+version: "3.3"
+
+services:
+  api:
+    build:
+      context: ./tours-0219-js-smart-borne-api
+    restart: always 
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - SECRET=${SECRET}
+      - EXPIRESKEY=3600
+      - DBURI=mongodb+srv://smartborne:smartborne@cluster0-mkfjj.mongodb.net/smartborne?retryWrites=true&w=majority
+    networks:
+      - web
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:www.smartborne.linkable.tech,smartborne.linkable.tech;PathPrefix:/api"
+      - "traefik.port=3000"
+      - "traefik.docker.network=web"
+      - "traefik.frontend.entryPoints=http,https"
+
+  ui:
+    build:
+      context: ./tours-0219-js-smart-borne-ui
+    restart: always
+    environment:
+      - NODE_ENV=production
+      - PORT=80
+    networks:
+      - web
+    depends_on:
+      - api
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:www.smartborne.linkable.tech,smartborne.linkable.tech"
+      - "traefik.port=80"
+      - "traefik.docker.network=web"
+      - "traefik.frontend.entryPoints=http,https"
+
+networks:
+  web:
+      external: true

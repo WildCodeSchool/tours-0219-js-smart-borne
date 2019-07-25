@@ -1,3 +1,6 @@
 [submodule "tours-0219-js-smart-borne-ui"]
 	path = tours-0219-js-smart-borne-ui
 	url = https://github.com/WildCodeSchool/tours-0219-js-smart-borne-ui
+[submodule "tours-0219-js-smart-borne-api"]
+	path = tours-0219-js-smart-borne-api
+	url = https://github.com/WildCodeSchool/tours-0219-js-smart-borne-api
